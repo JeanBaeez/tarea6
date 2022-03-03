@@ -1,20 +1,46 @@
 var noticias;
+let endpoint = "https://remolacha.net/wp-json/wp/v2/posts?_embed";
 
 function cargarNoticias() {
 
-    fetch("https://remolacha.net/wp-json/wp/v2/posts?_embed")
-        .then((response) => {
-            if (response.ok) {
+    $.get({
+        url: endpoint,
+        beforeSend: function () {
+            Loading();
+        },
+        success: function (data) {
+            Noticias(data);
+            quitLoading();
+        }
+    })
 
-                return response.json();
-            } else {
-                throw new Error("NETWORK RESPONSE ERROR");
-            }
-        }).then(data => Noticias(data))
+    // let t = document.getElementById("ldld");
+    // //t.setAttribute("class", "hidden");
+    // fetch("https://remolacha.net/wp-json/wp/v2/posts?_embed")
 
+    //     .then((response) => {
+    //         if (response.ok) {
+
+    //             return response.json();
+    //         } else {
+    //             throw new Error("NETWORK RESPONSE ERROR");
+    //         }
+    //     }).then(data => Noticias(data));
+    // t.setAttribute("class", "hidden");
 }
 
+function Loading() {
+    let loading = document.getElementById("loading");
 
+    loading.setAttribute("src", "./gif.gif");
+    loading.setAttribute("class", "text-center");
+    document.body.appendChild(loading);
+
+}
+function quitLoading() {
+    let loading = document.getElementById("loading");
+    loading.setAttribute("class", "hidden");
+}
 
 
 
